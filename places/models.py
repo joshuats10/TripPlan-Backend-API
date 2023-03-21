@@ -19,3 +19,6 @@ class Places(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        ordering = ['travel_order']
