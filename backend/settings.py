@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     # local apps
-
+    'trips.apps.TripsConfig',
 ]
 
 MIDDLEWARE = [
