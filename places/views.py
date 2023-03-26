@@ -26,7 +26,7 @@ def getRoutes(request):
         {
             'Endpoint': '/api/places/add/',
             'method': 'POST',
-            'body': {'name': ""},
+            'body': {'name': "", 'photo_reference': ""},
             'description': 'Creates new place (only name) with data sent in post request'
         },
         {
@@ -77,7 +77,8 @@ class AddPlaceAPIView(APIView):
     def post(self, request):
         data = request.data
         place = Places.objects.create(
-            name = data['name']
+            name = data['name'],
+            photo_reference = data['photo_reference']
         )
         serializer = AddPlaceSerializer(place, many=False)
         return Response(serializer.data, status.HTTP_201_CREATED)

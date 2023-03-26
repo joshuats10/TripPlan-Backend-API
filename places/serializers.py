@@ -15,4 +15,4 @@ class DeleteAllPlacesSerializer(serializers.ModelSerializer):
 class AddPlaceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Places
-        fields = ('name',)
+        fields = ('name', 'photo_reference')

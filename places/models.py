@@ -16,6 +16,7 @@ class Places(models.Model):
     stay_time = models.DurationField(blank=True, null=True)
     next_destination_mode = models.CharField(max_length=200, blank=True, null=True)
     next_destination_travel_time = models.DurationField(blank=True, null=True)
+    photo_reference = models.CharField(max_length=300, blank=True, null=True)
 
     def __str__(self):
         return self.name
