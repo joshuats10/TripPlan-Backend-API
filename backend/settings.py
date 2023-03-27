@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': env.db_url('DATABASE_URL', default='postgres://postgres@db/postgres')
+    'default': env.db_url('DATABASE_URL', default='sqlite:///db.sqlite3')
 }
 
 
@@ -129,3 +129,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MAPS_API_KEY = env.str('MAPS_API_KEY')

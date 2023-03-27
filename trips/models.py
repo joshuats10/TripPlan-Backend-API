@@ -20,7 +20,7 @@ class Trip(models.Model):
         editable=False
     )
     user = models.ForeignKey(UserProfile, null=True, blank=True, on_delete=models.CASCADE)
-    day = models.DateField()
+    date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
 
@@ -35,6 +35,8 @@ class Destination(models.Model):
     )
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
+    google_place_id = models.CharField(max_length=200)
+    photo_id = models.CharField(max_length=200, blank=True, null=True)
     travel_order = models.PositiveIntegerField(blank=True, null=True)
     arrival_time = models.DateTimeField(blank=True, null=True)
     departure_time = models.DateTimeField(blank=True, null=True)
