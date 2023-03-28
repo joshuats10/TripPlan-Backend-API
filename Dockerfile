@@ -1,5 +1,8 @@
 # Pull base image
-FROM --platform=linux/amd64 python:3.10.4-slim-bullseye
+FROM python:3.10.9-bullseye
+
+# Update apt-get package list and install CMake dependencies
+RUN apt-get update && apt-get install -y cmake
 
 # Set environment variables
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1
