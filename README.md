@@ -14,9 +14,8 @@ source .venv/bin/activate
 ```
 pip install -r requirements.txt
 ```
-4. Run `makemigrations` and `migrate` \
+4. Run `migrate` \
 ```
-python3 manage.py makemigrations places
 python3 manage.py migrate
 ```
 5. Create `superuser` by following the prompt
@@ -35,9 +34,8 @@ python3 manage.py runserver
 ```
 docker-compose up -d --build
 ```
-3. Run `makemigrations` and `migrate` 
+3. Run `migrate` 
 ```
-docker-compose exec web python manage.py makemigrations places
 docker-compose exec web python manage.py migrate
 ```
 4. Create `superuser` by following the prompt
