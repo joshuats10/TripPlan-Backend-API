@@ -1,5 +1,8 @@
 # Pull base image
-FROM --platform=linux/amd64 python:3.10.4-slim-bullseye
+FROM --platform=linux/arm64/v8 python:3.10.4-slim-bullseye
+
+RUN apt-get update \
+  && apt-get install -y build-essential cmake libboost-dev git
 
 # Set environment variables
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1
