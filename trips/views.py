@@ -1,4 +1,4 @@
-from rest_framework import status
+from rest_framework import status, parsers
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -10,6 +10,7 @@ from .utils import CreateTripPlan
 from .serializers import *
 
 class OptimizeTripPlan(APIView):
+    parser_classes = (parsers.JSONParser,)
     
     def post(self, request):
 
@@ -33,7 +34,6 @@ class OptimizeTripPlan(APIView):
         places = trip_plan.get_optimal_trip_plan()
 
         for place in places:
-            print(place)
             destination, created = Destination.objects.get_or_create(
                 trip = trip,
                 name = place['place_name'],

@@ -8,7 +8,7 @@ from http.cookies import SimpleCookie
 from .models import *
 from .utils import *
 
-import uuid
+import uuid, json
 
 class UserProfileTest(TestCase):
 
@@ -51,7 +51,7 @@ class APITest(TestCase):
             }]
         }
         self.client.cookies = SimpleCookie({'device': uuid.uuid4()})
-        response = self.client.post(url, data, format='json')
+        response = self.client.post(url, json.dumps(data), content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(UserProfile.objects.count(), 1)
         self.assertEqual(Trip.objects.count(), 1)

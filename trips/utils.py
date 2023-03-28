@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.utils.timezone import make_aware
 
 from pyqubo import Array, Constraint, Placeholder
 from datetime import datetime, timedelta, date
@@ -10,12 +11,12 @@ import random
 
 class CreateTripPlan:
     def __init__(self, date, start_time, end_time, places):
-        self.date = datetime.strptime(date, '%Y-%m-%d')
+        self.date = make_aware(datetime.strptime(date, '%Y-%m-%d'))
         self.year = self.date.year
         self.month = self.date.month
         self.day = self.date.day
-        self.travel_start = datetime.combine(self.date, datetime.strptime(start_time, '%H:%M').time())
-        self.travel_end = datetime.combine(self.date, datetime.strptime(end_time, '%H:%M').time())
+        self.travel_start = make_aware(datetime.combine(self.date, datetime.strptime(start_time, '%H:%M').time()))
+        self.travel_end = make_aware(datetime.combine(self.date, datetime.strptime(end_time, '%H:%M').time()))
         
         self.places = places
         self.places_name = [places[i]['place_name'] for i in range(len(self.places))]
@@ -92,8 +93,8 @@ class CreateTripPlan:
                 open_time = get_h_m_from_hhmm(int(open_close[i][0]))
                 close_time = get_h_m_from_hhmm(int(open_close[i][1]))
 
-                open_date = datetime(year, month, day, open_time[0], open_time[1])
-                close_date = datetime(year, month, day, close_time[0], close_time[1],)
+                open_date = make_aware(datetime(year, month, day, open_time[0], open_time[1]))
+                close_date = make_aware(datetime(year, month, day, close_time[0], close_time[1]))
                 business_hours.append([open_date, close_date])
             return business_hours
 
@@ -354,8 +355,6 @@ class CreateTripPlan:
         self.get_duration_values()
 
         _, order, timetables, routes = self.trip_planning()
-
-        print(timetables)
 
         for idx, i in enumerate(order[0]):
             self.places[i]['travel_order'] = idx + 1
