@@ -1,7 +1,8 @@
-from rest_framework import status, parsers
+from rest_framework import status, parsers, serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
+from drf_spectacular.utils import extend_schema, OpenApiResponse, inline_serializer
+from drf_spectacular.types import OpenApiTypes
 from django.http import Http404
 import uuid
 
@@ -12,6 +13,30 @@ from .serializers import *
 class OptimizeTripPlan(APIView):
     parser_classes = (parsers.JSONParser,)
     
+    @extend_schema(
+        methods = ['POST'],
+        summary = "Create optimal trip plan",
+        description = "Create an optimal trip plan given some destinations chosen by the user.",
+        responses = {201: TripSerializer(many=False)},
+        request = {'application/json': inline_serializer(
+            'CreateTrip',
+            fields = {
+                "date": serializers.DateField(),
+                "start_time": serializers.TimeField(),
+                "end_time": serializers.TimeField(),
+                "places": inline_serializer(
+                    'TripDestinations',
+                    fields = {
+                        "place_name": serializers.CharField(),
+                        "place_id": serializers.CharField(),
+                        "photo_reference": serializers.CharField()
+                    },
+                    many = True,
+                )
+            }
+        )}
+        
+    )
     def post(self, request):
 
         data = request.data
@@ -55,7 +80,16 @@ class ListDestinations(APIView):
             return Trip.objects.get(pk=pk)
         except Trip.DoesNotExist:
             raise Http404
-        
+    
+    @extend_schema(
+        methods = ['GET'],
+        summary = 'Get all destinations according to search query',
+        description = 'Search for all destinations related with the same query i.e. trip_id',
+        responses = {
+            200: DestinationSerializer(many=True),
+            404: OpenApiResponse(description='Bad Request (Trip ID not found)')
+        }
+    )
     def get(self, request, pk):
         trip = self.get_object(pk)
         destinations = Destination.objects.filter(trip=trip)

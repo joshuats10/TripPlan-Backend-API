@@ -9,6 +9,7 @@ Django==4.0.10
 django-cors-headers==3.14.0
 django-environ==0.10.0
 djangorestframework==3.14.0
+drf-spectacular==0.26.1
 dwave-cloud-client==0.10.4
 dwave-greedy==0.3.0
 dwave-hybrid==0.6.10

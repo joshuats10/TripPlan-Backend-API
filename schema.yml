@@ -1,0 +1,320 @@
+openapi: 3.0.3
+info:
+  title: TripPlan Backend API
+  version: 0.0.1
+  description: Handles users trips and the optimization of their trip plan
+paths:
+  /api/get_trip_destinations/{id}/:
+    get:
+      operationId: get_trip_destinations_list
+      description: Search for all destinations related with the same query i.e. trip_id
+      summary: Get all destinations according to search query
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - get_trip_destinations
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Destination'
+          description: ''
+        '404':
+          description: Bad Request (Trip ID not found)
+  /api/optimize_trip/:
+    post:
+      operationId: optimize_trip_create
+      description: Create an optimal trip plan given some destinations chosen by the
+        user.
+      summary: Create optimal trip plan
+      tags:
+      - optimize_trip
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTrip'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trip'
+          description: ''
+  /api/schema/:
+    get:
+      operationId: schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - schema
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+components:
+  schemas:
+    CreateTrip:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        start_time:
+          type: string
+          format: time
+        end_time:
+          type: string
+          format: time
+        places:
+          type: array
+          items:
+            $ref: '#/components/schemas/TripDestinations'
+      required:
+      - date
+      - end_time
+      - places
+      - start_time
+    Destination:
+      type: object
+      properties:
+        destination_id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 200
+        google_place_id:
+          type: string
+          maxLength: 200
+        photo_id:
+          type: string
+          nullable: true
+          maxLength: 200
+        travel_order:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        arrival_time:
+          type: string
+          format: date-time
+          nullable: true
+        departure_time:
+          type: string
+          format: date-time
+          nullable: true
+        stay_time:
+          type: string
+          nullable: true
+        next_destination_mode:
+          type: string
+          nullable: true
+          maxLength: 200
+        next_destination_travel_time:
+          type: string
+          nullable: true
+        trip:
+          type: string
+          format: uuid
+      required:
+      - destination_id
+      - google_place_id
+      - name
+      - trip
+    Trip:
+      type: object
+      properties:
+        trip_id:
+          type: string
+          format: uuid
+          readOnly: true
+        date:
+          type: string
+          format: date
+        start_time:
+          type: string
+          format: time
+        end_time:
+          type: string
+          format: time
+        user:
+          type: integer
+          nullable: true
+      required:
+      - date
+      - end_time
+      - start_time
+      - trip_id
+    TripDestinations:
+      type: object
+      properties:
+        place_name:
+          type: string
+        place_id:
+          type: string
+        photo_reference:
+          type: string
+      required:
+      - photo_reference
+      - place_id
+      - place_name
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
