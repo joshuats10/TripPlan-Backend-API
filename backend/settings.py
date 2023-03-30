@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     # third-party library
     'rest_framework',
+    'drf_spectacular',
 
     # local apps
     'trips.apps.TripsConfig',
@@ -80,6 +81,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema'
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'TripPlan Backend API',
+    'DESCRIPTION': 'Handles users trips and the optimization of their trip plan',
+    'VERSION': '0.0.1',
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
