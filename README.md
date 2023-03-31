@@ -72,7 +72,7 @@ Can be accessed after running the API app through the following URL \
 `POST`
 
 * **URL** \
-`http://127.0.0.1:8000/api/optimize_trip/`
+`http://127.0.0.1:8000/api/v0/optimize_trip/`
 
 * **Data Params** \
 ```json
@@ -105,7 +105,7 @@ Can be accessed after running the API app through the following URL \
   ```
 
 * **Sample Call**
-<pre><code>curl -i --cookie "device=ebfcc6ac-5c6c-4e34-9c2f-5067f130c4ee" -H 'Content-Type: application/json' -d <i>data params</i> http://127.0.0.1:8000/api/optimize_trip/
+<pre><code>curl -i --cookie "device=ebfcc6ac-5c6c-4e34-9c2f-5067f130c4ee" -H 'Content-Type: application/json' -d <i>data params</i> http://127.0.0.1:8000/api/v0/optimize_trip/
 </code></pre>
 
 ### Get Destinations of an Optimized Trip Plan
@@ -114,7 +114,7 @@ Can be accessed after running the API app through the following URL \
 `GET`
 
 * **URL** \
-`http://127.0.0.1:8000/api/get_trip_destinations/`
+`http://127.0.0.1:8000/api/v0/get_trip_destinations/`
 
 * **URL Params** \
 **Required** \
@@ -147,5 +147,5 @@ id=[uuid]
 
 * **Sample Call**
 ```
-curl -i http://127.0.0.1:8000/api/get_trip_destinations/f6292fe4-5efc-4992-85f4-3329d0754f5b/
+curl -i http://127.0.0.1:8000/api/v0/get_trip_destinations/f6292fe4-5efc-4992-85f4-3329d0754f5b/
 ```
